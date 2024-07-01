@@ -12,5 +12,9 @@ int main()
         insert(ptrTree, i);
     }
 
-  return 0;
+    cout << "Elementos da árvore : ";
+    inorder(ptrTree->ptrRoot);
+    cout << endl << endl;
+
+    return 0;
 }

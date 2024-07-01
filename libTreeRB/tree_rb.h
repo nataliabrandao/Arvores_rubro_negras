@@ -34,7 +34,7 @@ typedef struct Tree_RB
 
 // Declaração de funções requisitadas
 void insert(Tree_RB*, int);
-
+void inorder(Node_RB*);
 
 // Declaração de funções auxiliares
 Tree_RB* createTree();

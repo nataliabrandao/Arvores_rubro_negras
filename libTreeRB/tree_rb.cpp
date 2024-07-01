@@ -47,6 +47,22 @@ void insert(Tree_RB* ptrTree, int iValue)
     insertFixup(ptrTree, ptrNew);
 }
 
+void inorder(Node_RB* ptrNode)
+{
+    if (ptrNode == nullptr) { return; }
+
+    inorder(ptrNode->ptrLeft);
+    
+    if (ptrNode->bColor == RED) {
+        cout << red << ptrNode->iValue << reset << " ";
+    } else {
+        cout << ptrNode->iValue << " ";
+    }
+
+    inorder(ptrNode->ptrRight);
+}
+
+
 // ============================================
 // ===== Declaração de funções auxiliares =====
 // ============================================
