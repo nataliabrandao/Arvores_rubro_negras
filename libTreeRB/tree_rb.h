@@ -43,5 +43,7 @@ Node_RB* createNode(int, Color);
 void insertFixup(Tree_RB*, Node_RB*);
 Node_RB* rotateLeft(Tree_RB* ptrTree, Node_RB* ptrNode);
 Node_RB* rotateRight(Tree_RB* ptrTree, Node_RB* ptrNode);
+void printTreeRB(string, Node_RB*, bool);
+void printTreeRB(Node_RB*); // Sobrecarga de função 
 
 #endif // _TREE_RB_H

@@ -16,5 +16,7 @@ int main()
     inorder(ptrTree->ptrRoot);
     cout << endl << endl;
 
+    printTreeRB(ptrTree->ptrRoot);
+
     return 0;
 }

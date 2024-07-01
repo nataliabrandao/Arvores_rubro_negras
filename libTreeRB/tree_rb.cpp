@@ -234,3 +234,34 @@ Node_RB* rotateLeft(Tree_RB* ptrTree, Node_RB* ptrNode)
     // Retorno de um ponteiro nulo, caso a rotação não seja possível
     return nullptr;
 }
+
+void printTreeRB(string sPrefix, Node_RB* ptrNode, bool isLeft)
+{
+    if (ptrNode != nullptr)
+    {
+        cout << sPrefix;
+
+        cout << (isLeft ? "├──" : "└──");
+
+        // print the value of the ptrNode
+        if (ptrNode->bColor == RED)
+        {
+            cout << red << ptrNode->iValue << reset << " ";
+        }
+        else
+        {
+            cout << ptrNode->iValue << " ";
+        }
+        cout << endl;
+
+        // enter the next tree level - left and right branch
+        printTreeRB(sPrefix + (isLeft ? "│   " : "    "), ptrNode->ptrLeft, true);
+        printTreeRB(sPrefix + (isLeft ? "│   " : "    "), ptrNode->ptrRight, false);
+    }
+}
+
+void printTreeRB(Node_RB* ptrNode)
+{
+    printTreeRB("", ptrNode, false);
+}
+
