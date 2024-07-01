@@ -62,6 +62,95 @@ void inorder(Node_RB* ptrNode)
     inorder(ptrNode->ptrRight);
 }
 
+void remove(Tree_RB* ptrTree, int iValue)
+{
+    Node_RB* ptrRemove = search(ptrTree, iValue);
+    if (ptrTree->ptrRoot == nullptr || ptrRemove == nullptr) { return; }
+
+    bool bOriginalColor = ptrRemove->bColor;
+    Node_RB* ptrChild = nullptr;
+    
+    // Caso 1: Filho à esquerda é nulo
+    if (ptrRemove->ptrLeft == nullptr) 
+    {
+        ptrChild = ptrRemove->ptrRight;
+        transplant(ptrTree, ptrRemove, ptrChild);
+    }
+    // Caso 2: Filho à direita é nulo
+    else if (ptrRemove->ptrRight == nullptr) 
+    {
+        ptrChild = ptrRemove->ptrLeft;
+        transplant(ptrTree, ptrRemove, ptrChild);
+    }
+    else // Caso 3: Nenhum filho é nulo 
+    {
+        Node_RB* ptrSubMin = findMin(ptrRemove->ptrRight);
+        bOriginalColor = ptrSubMin->bColor; 
+        ptrChild = ptrSubMin->ptrRight;
+
+        if (ptrSubMin->ptrParent == ptrRemove) 
+        {
+            ptrChild->ptrParent = ptrSubMin;
+        } 
+        else 
+        {
+            transplant(ptrTree, ptrSubMin, ptrChild);
+            ptrSubMin->ptrRight = ptrRemove->ptrRight;
+            ptrRemove->ptrRight->ptrParent = ptrSubMin;
+        }
+
+        transplant(ptrTree, ptrRemove, ptrSubMin);
+        ptrSubMin->ptrLeft = ptrRemove->ptrLeft;
+        ptrRemove->ptrLeft->ptrParent = ptrSubMin;
+        // Transfere a cor do nó removido para o sucessor
+        ptrSubMin->bColor = ptrRemove->bColor;  
+    }
+
+    delete ptrRemove; // Deleta efetivamente o nó
+
+    // Garante que a árvore é válida após a remoção
+    if (bOriginalColor == BLACK) {
+        removeFixup(ptrTree, ptrChild);
+    }
+}
+
+Node_RB* search(Tree_RB* ptrTree, int value)
+{
+    Node_RB* ptrCurrent = ptrTree->ptrRoot;
+
+    while (ptrCurrent != nullptr) 
+    {
+        if (value == ptrCurrent->iValue) 
+        {
+            return ptrCurrent; // Nó encontrado
+        } 
+        else if (value < ptrCurrent->iValue) {
+            // Procura na subárvore esquerda
+            ptrCurrent = ptrCurrent->ptrLeft; 
+        } else {
+            // Procura na subárvore direita
+            ptrCurrent = ptrCurrent->ptrRight; 
+        }
+    }
+
+    return nullptr; // Nó não encontrado
+}
+
+Node_RB* findMin(Node_RB* ptrRoot)
+{
+    if (ptrRoot == nullptr) { return nullptr; }
+
+    Node_RB* ptrCurrent = ptrRoot;
+
+    while(ptrCurrent->ptrLeft != nullptr)
+    {
+        ptrCurrent = ptrCurrent->ptrLeft;
+    }
+
+    return ptrCurrent;
+}
+
+
 
 // ============================================
 // ===== Declaração de funções auxiliares =====
@@ -263,5 +352,70 @@ void printTreeRB(string sPrefix, Node_RB* ptrNode, bool isLeft)
 void printTreeRB(Node_RB* ptrNode)
 {
     printTreeRB("", ptrNode, false);
+}
+
+void transplant(Tree_RB* ptrTree, Node_RB* ptrNode, Node_RB* ptrSubRoot) {
+    if (ptrNode->ptrParent == nullptr) 
+    {
+        ptrTree->ptrRoot = ptrSubRoot;
+    } 
+    else if (ptrNode == ptrNode->ptrParent->ptrLeft) 
+    {    
+        ptrNode->ptrParent->ptrLeft = ptrSubRoot;
+    } 
+    else {
+        ptrNode->ptrParent->ptrRight = ptrSubRoot;
+    }
+
+    if (ptrSubRoot != nullptr) {
+        ptrSubRoot->ptrParent = ptrNode->ptrParent;
+    }
+}
+
+void removeFixup(Tree_RB* ptrTree, Node_RB* ptrChild) 
+{
+    if (ptrChild == nullptr) { return; }
+
+    while (ptrChild != ptrTree->ptrRoot && ptrChild->bColor == BLACK) 
+    {
+        // Verifica se correções são necessárias
+        if (ptrChild != ptrChild->ptrParent->ptrLeft) { break;}
+
+        Node_RB* ptrSibling = ptrChild->ptrParent->ptrRight;
+
+        // Caso 1:
+        if (ptrSibling->bColor == RED) 
+        {
+            ptrSibling->bColor = BLACK;
+            ptrChild->ptrParent->bColor = RED;
+            rotateLeft(ptrTree, ptrChild->ptrParent);
+            ptrSibling = ptrChild->ptrParent->ptrRight;
+        }
+
+        // Caso 2:
+        if (ptrSibling->ptrLeft->bColor == BLACK && ptrSibling->ptrRight->bColor == BLACK) 
+        {
+            ptrSibling->bColor = RED;
+            ptrChild = ptrChild->ptrParent;
+        }
+        else {
+            // Caso 3:
+            if (ptrSibling->ptrRight->bColor == BLACK) 
+            {
+                ptrSibling->ptrLeft->bColor = BLACK;
+                ptrSibling->bColor = RED;
+                rotateRight(ptrTree, ptrSibling);
+                ptrSibling = ptrChild->ptrParent->ptrRight;
+            }
+            // Caso 4:
+            ptrSibling->bColor = ptrChild->ptrParent->bColor;
+            ptrChild->ptrParent->bColor = BLACK;
+            ptrSibling->ptrRight->bColor = BLACK;
+            rotateLeft(ptrTree, ptrChild->ptrParent);
+            ptrChild = ptrTree->ptrRoot;
+        }   
+    }
+
+    ptrChild->bColor = BLACK;
 }
 

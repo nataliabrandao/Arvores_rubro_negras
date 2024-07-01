@@ -18,5 +18,11 @@ int main()
 
     printTreeRB(ptrTree->ptrRoot);
 
+    cout << "O elemento de valor 60 é removido (se houver)" << endl;
+    remove(ptrTree, 60);
+
+    cout << "O elemento de valor 20 é removido (se houver)" << endl;
+    remove(ptrTree, 20);
+
     return 0;
 }

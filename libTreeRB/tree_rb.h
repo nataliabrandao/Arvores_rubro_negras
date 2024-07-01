@@ -35,6 +35,9 @@ typedef struct Tree_RB
 // Declaração de funções requisitadas
 void insert(Tree_RB*, int);
 void inorder(Node_RB*);
+void remove(Tree_RB*, int);
+Node_RB* search(Tree_RB*, int);
+Node_RB* findMin(Node_RB*);
 
 // Declaração de funções auxiliares
 Tree_RB* createTree();
@@ -45,5 +48,7 @@ Node_RB* rotateLeft(Tree_RB* ptrTree, Node_RB* ptrNode);
 Node_RB* rotateRight(Tree_RB* ptrTree, Node_RB* ptrNode);
 void printTreeRB(string, Node_RB*, bool);
 void printTreeRB(Node_RB*); // Sobrecarga de função 
+void transplant(Tree_RB*, Node_RB*, Node_RB*);
+void removeFixup(Tree_RB*, Node_RB*);
 
 #endif // _TREE_RB_H
