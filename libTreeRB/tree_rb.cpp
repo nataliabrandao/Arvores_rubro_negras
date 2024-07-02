@@ -150,6 +150,40 @@ Node_RB* findMin(Node_RB* ptrRoot)
     return ptrCurrent;
 }
 
+bool isValid_Tree_RB(Tree_RB* ptrTree) 
+{
+    if(ptrTree == nullptr) return true;
+
+    Node_RB* ptrNode = ptrTree->ptrRoot;
+
+    // Verifica raiz
+    if(ptrNode->bColor != BLACK) {
+        cerr << "Violação: a raíz não é preta." << endl;
+        return false;
+    }
+
+    // Verifica os nós vermelhos
+    if(!verifyRedNodes(ptrNode)) {
+        cerr << "Violação: os nós vermelhos tem filhos pretos." << endl;
+        return false;
+    }
+
+    // Verifica a altura pretas de um caminho
+    int iCountBlack = 0;
+    Node_RB* temp = ptrNode;
+    while(temp != nullptr) {
+        if (temp->bColor == BLACK) iCountBlack++;
+        temp = temp->ptrLeft;
+    }
+
+    if(!verifyBlackNodes(ptrNode, iCountBlack, 0)) {
+        cerr << "Violação: Os caminho até as folhas (NIL) não tem o mesmo número de nós pretos." << endl;
+        return false;
+    }
+
+    return true;
+}
+
 
 
 // ============================================
@@ -417,5 +451,39 @@ void removeFixup(Tree_RB* ptrTree, Node_RB* ptrChild)
     }
 
     ptrChild->bColor = BLACK;
+}
+
+bool verifyRedNodes(Node_RB* ptrNode) 
+{
+    if(ptrNode == nullptr) return true;
+
+    // Verifica se um nó vermelho tem, como esperado, filhos pretos
+    if(ptrNode->bColor == RED) 
+    {
+        if ((ptrNode->ptrLeft != nullptr && ptrNode->ptrLeft->bColor == RED) ||
+            (ptrNode->ptrRight != nullptr && ptrNode->ptrRight->bColor == RED)) {
+            return false;
+        }
+    }
+
+    // Recursivamente verifica todos os nós vermelhos da árvore
+    return verifyRedNodes(ptrNode->ptrLeft) && verifyRedNodes(ptrNode->ptrRight);
+}
+
+bool verifyBlackNodes(Node_RB* ptrNode, int iCountBlack, int currentCount) 
+{
+    if(ptrNode == nullptr) 
+    {
+        return currentCount == iCountBlack;
+    }
+
+    if(ptrNode->bColor == BLACK) 
+    {
+        currentCount++;
+    }
+
+    // Recursivamente verifica todos os nós pretos da árvore
+    return verifyBlackNodes(ptrNode->ptrLeft, iCountBlack, currentCount) &&
+        verifyBlackNodes(ptrNode->ptrRight, iCountBlack, currentCount);
 }
 
