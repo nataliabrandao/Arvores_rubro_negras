@@ -39,6 +39,7 @@ void remove(Tree_RB*, int);
 Node_RB* search(Tree_RB*, int);
 Node_RB* findMin(Node_RB*);
 bool isValid_Tree_RB(Tree_RB*);
+Node_RB* findMax(Node_RB*);
 
 // Declaração de funções auxiliares
 Tree_RB* createTree();

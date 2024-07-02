@@ -57,6 +57,14 @@ int main()
         cout << "Teste falhou: valor mínimo não é 1." << endl;
     }
 
+    //Testando a findMax 
+      Node_RB* result4 = findMax(ptrTree->ptrRoot);
+    if (result4 != nullptr && result4->iValue == 28) {
+        cout << "Teste passou: valor máximo é 28." << endl;
+    } else {
+        cout << "Teste falhou: valor máximo não é 28." << endl;
+    }
+
 
     return 0;
 }

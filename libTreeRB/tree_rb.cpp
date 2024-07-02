@@ -184,6 +184,21 @@ bool isValid_Tree_RB(Tree_RB* ptrTree)
     return true;
 }
 
+Node_RB* findMax(Node_RB* ptrRoot)
+{
+    if (ptrRoot == nullptr) { return nullptr; }
+
+    Node_RB* ptrCurrent = ptrRoot;
+
+    while(ptrCurrent->ptrRight != nullptr)
+    {
+        ptrCurrent = ptrCurrent->ptrRight;
+    }
+
+    return ptrCurrent;
+}
+
+
 
 
 // ============================================
