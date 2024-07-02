@@ -46,7 +46,16 @@ int main()
         cout << "Teste 2 falhou: 80 não encontrado." << endl;
     }
 
+    //Testando isValid_Tree_RB
+    cout << "A árvore é válida: " << isValid_Tree_RB(ptrTree) << " - (1 = sim, 0 = não)" << endl;
 
+    //Testando a findMin
+        Node_RB* result3 = findMin(ptrTree->ptrRoot);
+    if (result3 != nullptr && result3->iValue == 1) {
+        cout << "Teste passou: valor mínimo é 1." << endl;
+    } else {
+        cout << "Teste falhou: valor mínimo não é 1." << endl;
+    }
 
 
     return 0;
