@@ -65,6 +65,8 @@ int main()
         cout << "Teste falhou: valor máximo não é 28." << endl;
     }
 
+    //Testando a height 
+    cout << "Altura da árvore: " << height(ptrTree->ptrRoot) << endl;
 
     return 0;
 }
