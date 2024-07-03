@@ -198,8 +198,15 @@ Node_RB* findMax(Node_RB* ptrRoot)
     return ptrCurrent;
 }
 
+int height(Node_RB* ptrNode)
+{
+    if (ptrNode == nullptr) { return -1; }
 
+    int iLeftHeight = height(ptrNode->ptrLeft);
+    int iRightHeight = height(ptrNode->ptrRight);
 
+    return 1 + max(iLeftHeight, iRightHeight);
+}
 
 // ============================================
 // ===== Declaração de funções auxiliares =====
