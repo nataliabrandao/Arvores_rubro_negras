@@ -4,7 +4,7 @@ Este repositório tem como objetivo detalhar a implementação de árvores rubro
 ## Estrutura do Projeto
 
 - `libTreeRB/`: Essa pasta contém os arquivos fonte da implementação da árvore rubro-negra.
-- `report/`: Contém o relatório detalhado da implementação e dos testes realizados.
+- `relatorio/`: Contém o relatório detalhado da implementação e dos testes realizados.
 
 1. **Clonando o Repositório:**
    ```bash

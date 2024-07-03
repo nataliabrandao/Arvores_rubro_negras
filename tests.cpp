@@ -13,6 +13,9 @@ int main()
         insert(ptrTree, i);
     }
 
+    //Testando elemento duplicado
+    insert(ptrTree, 20);
+
     //Testando a inorder: 
     cout << "Elementos da árvore : ";
     inorder(ptrTree->ptrRoot);
